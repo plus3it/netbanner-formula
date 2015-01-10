@@ -48,6 +48,7 @@ netbanner_process:
       - reg: CustomForeColor
       - reg: CustomBackgroundColor
       - reg: CustomSettings
+      - pkg: netbanner
 #'onchanges' doesn't support execution when *any* state changes, only all of them.
 #When that's supported, this block will replace the require block.
 #    - onchanges:
@@ -55,3 +56,4 @@ netbanner_process:
 #      - reg: CustomForeColor
 #      - reg: CustomBackgroundColor
 #      - reg: CustomSettings
+#      - pkg: netbanner
