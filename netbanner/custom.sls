@@ -9,8 +9,8 @@ CustomSettings:
     - value: {{ netbanner.CustomSettings }}
     - vtype: REG_DWORD
     - reflection: True
-    - require:
-      - pkg: netbanner
+    - listen_in:
+      - cmd: netbanner
 
 CustomBackgroundColor:
   reg.present:
@@ -18,8 +18,8 @@ CustomBackgroundColor:
     - value: {{ netbanner.CustomBackgroundColor }}
     - vtype: REG_DWORD
     - reflection: True
-    - require:
-      - pkg: netbanner
+    - listen_in:
+      - cmd: netbanner
 
 CustomForeColor:
   reg.present:
@@ -27,8 +27,8 @@ CustomForeColor:
     - value: {{ netbanner.CustomForeColor }}
     - vtype: REG_DWORD
     - reflection: True
-    - require:
-      - pkg: netbanner
+    - listen_in:
+      - cmd: netbanner
 
 CustomDisplayText:
   reg.present:
@@ -36,24 +36,8 @@ CustomDisplayText:
     - value: '{{ netbanner.CustomDisplayText }}'
     - vtype: REG_SZ
     - reflection: True
-    - require:
-      - pkg: netbanner
+    - listen_in:
+      - cmd: netbanner
 
-netbanner_process:
-  cmd.run:
-    - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | Stop-Process; Start-Process "{{ netbanner.netbanner_exe }}"'
-    - shell: powershell
-    - require:
-      - reg: CustomDisplayText
-      - reg: CustomForeColor
-      - reg: CustomBackgroundColor
-      - reg: CustomSettings
-      - pkg: netbanner
 #'onchanges' doesn't support execution when *any* state changes, only all of them.
-#When that's supported, this block will replace the require block.
-#    - onchanges:
-#      - reg: CustomDisplayText
-#      - reg: CustomForeColor
-#      - reg: CustomBackgroundColor
-#      - reg: CustomSettings
-#      - pkg: netbanner
+#When that's supported, 'onchanges' will replace the 'listen_in' requisites

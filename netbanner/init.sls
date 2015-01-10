@@ -25,6 +25,16 @@ netbanner:
   pkg.installed:
     - name: 'Netbanner'
     - version: {{ netbanner.version }}
+    - listen_in:
+      - cmd: netbanner
+  cmd.run:
+    - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | Stop-Process; Start-Process "{{ netbanner.netbanner_exe }}"'
+    - shell: powershell
+
+#The 'listen_in' requisite results in the cmd.run state executing every time,
+#rather than only when there are changes. It works, but not ideal.
+#'onchanges' doesn't support execution when *any* state changes, only all of them.
+#When that's supported, 'onchanges_in' will replace the 'listen_in' requisite
 
 NetBanner.admx:
   file.managed:
