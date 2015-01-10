@@ -1,0 +1,83 @@
+#Define lookup dictionary with default settings
+{% set netbanner = { 
+    'version'        : '2.1.161',
+    'admx_source'    : 'salt://netbanner/netbannerfiles/netbanner.admx',
+    'adml_source'    : 'salt://netbanner/netbannerfiles/netbanner.adml',
+    'CustomBackgroundColor' : '8',
+    'CustomDisplayText'     : 'No network banner configured',
+    'CustomForeColor'       : '2',
+    'CustomSettings'        : '1',    
+} %}
+
+#Define lookup dictionary of netbanner version dependencies
+{% set dependencies = {
+    '1.3.93'  : { 'dotnet_versions' : ['2'],
+                },
+    '2.1.161' : { 'dotnet_versions' : ['4'],
+                },
+} %}
+
+#Override default settings with user-defined pillar data, if available
+{% do netbanner.update(salt['pillar.get']('netbanner:lookup')) %}
+
+#Add version dependencies to the netbanner settings dictionary
+{% do netbanner.update(dependencies[netbanner['version']]) %}
+
+#Background Color Key
+### Black       = 6
+### Blue        = 2
+### Green       = 1
+### Orange      = 9
+### Purple      = 8
+### Red         = 3
+### SaddleBrown = 7
+### White       = 5
+### Yellow      = 4
+
+#Foreground (Text) Color Key
+### Black       = 1
+### Red         = 3
+### White       = 2
+
+#Define lookup dictionary of banner settings for the known network strings
+{% set network_string_lookup = { 
+    'Unclass' : { 'CustomBackgroundColor' : '1',
+                  'CustomDisplayText'     : 'UNCLASSIFIED',
+                  'CustomForeColor'       : '2',
+                  'CustomSettings'        : '1',
+                },
+    'NIPR'    : { 'CustomBackgroundColor' : '1',
+                  'CustomDisplayText'     : 'UNCLASSIFIED//FOUO',
+                  'CustomForeColor'       : '2',
+                  'CustomSettings'        : '1',
+                },
+    'SIPR'    : { 'CustomBackgroundColor' : '3',
+                  'CustomDisplayText'     : 'SECRET AND AUTHORIZED TO PROCESS NATO SECRET',
+                  'CustomForeColor'       : '2',
+                  'CustomSettings'        : '1',
+                },
+    'JWICS'   : { 'CustomBackgroundColor' : '4',
+                  'CustomDisplayText'     : 'TOPSECRET//SI/TK/NOFORN                  **G//HCS//NATO SECRET FOR APPROVED USERS IN SELECTED STORAGE SPACE**',
+                  'CustomForeColor'       : '2',
+                  'CustomSettings'        : '1',
+                },
+} %}
+
+#Get the network string from pillar, or a grain
+{% set network_string = salt['pillar.get']('netbanner:network_string', salt['grains.get']('netbanner:network_string')) %}
+
+#Import user-defined network banner settings from pillar, if available.
+#If an unknown string is specified, the 'default' settings remain in place.
+{% do netbanner.update(salt['pillar.get']('netbanner:custom_network_banner', network_string_lookup.get(network_string, {}))) %}
+
+#Get the SYSTEMROOT value from the registry
+{% set systemroot = salt['reg.read_key']('HKEY_LOCAL_MACHINE', 'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 'SystemRoot') %}
+
+{% set programfilesx86 = salt['cmd.run']('${env:ProgramFiles(x86)}', shell='powershell') %}
+
+#Update netbanner settings with required filename locations
+{% do netbanner.update({
+    'admx_name'     : systemroot + '\\PolicyDefinitions\\NetBanner.admx',
+    'adml_name'     : systemroot + '\\PolicyDefinitions\\en-US\\NetBanner.adml',
+    'netbanner_exe' : programfilesx86 + '\\Microsoft\\NetBanner\\NetBanner.exe',
+}) %}
