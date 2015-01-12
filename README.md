@@ -3,6 +3,13 @@ This salt formula will install and configure Microsoft Netbanner. Local Group
 Policy Object (LGPO) files will be updated so that Netbanner can be managed 
 from the Local Group Policy Editor (i.e. gpedit.msc).
 
+##IMPORTANT:
+Microsoft does not distribute the Netbanner package. It is rather difficult
+to come by. Also, the Netbanner license prevents distribution, so we cannot 
+provide it via Github or a CDN. The only known source is below, and it 
+requires a government-provided ID (CAC) to gain access to the site.
+  - https://software.forge.mil/sf/go/rel3968
+
 ## Dependencies
   - Microsoft .NET 4 for Netbanner 2.x.
   - Microsoft .NET 2 for Netbanner 1.x.
@@ -10,7 +17,7 @@ from the Local Group Policy Editor (i.e. gpedit.msc).
   - Properly configured salt winrepo package manager, in a master or 
     masterless configuration.
   - Package definition for Netbanner must be available in the winrepo 
-    database. The installer can be obtained from the link above.
+    database. The installer can be obtained from the site(s) listed above.
 
 ## Available States
 
@@ -93,7 +100,7 @@ is a number (in string format) from 1-3.
   - SaddleBrown = '7'
   - Purple      = '8'
   - Orange      = '9'
-  
+
 `CustomForeColor` key:
   - Black       = '1'
   - White       = '2'
