@@ -18,7 +18,7 @@
 #  - Properly configured salt winrepo package manager, in a master or 
 #    masterless configuration.
 #  - Package definition for Netbanner must be available in the winrepo 
-#    database. The installer can be obtained from the link above.
+#    database. The installer can be obtained from the site(s) listed above.
 
 #Get the latest installed version of .NET
 {% set dotnet_version = salt['cmd.run'](
