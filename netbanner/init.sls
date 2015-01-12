@@ -1,5 +1,25 @@
 {% from "netbanner/map.jinja" import netbanner with context %}
 
+# This sls file will install Microsoft Netbanner and update the Local Group 
+# Policy Editor configuration so that the Netbanner settings can be managed
+# via LGPO. The sls will also start|restart the 'Netbanner' process.
+
+#IMPORTANT:
+# Microsoft does not distribute the Netbanner package. It is rather difficult
+# to come by. Also, the Netbanner license prevents distribution, so we cannot 
+# provide it via Github or a CDN. The only known source is below, and it 
+# requires a government-provided ID (CAC) to gain access to the site.
+#  - https://software.forge.mil/sf/go/rel3968
+
+#Dependencies:
+#  - Microsoft .NET 4 for Netbanner 2.x.
+#  - Microsoft .NET 2 for Netbanner 1.x.
+#  - Salt 2014.7.0 or greater (required for the 'test' state).
+#  - Properly configured salt winrepo package manager, in a master or 
+#    masterless configuration.
+#  - Package definition for Netbanner must be available in the winrepo 
+#    database. The installer can be obtained from the link above.
+
 #Get the latest installed version of .NET
 {% set dotnet_version = salt['cmd.run'](
     '(Get-ChildItem "HKLM:\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP" -recurse | \
@@ -31,10 +51,11 @@ netbanner:
     - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | Stop-Process; Start-Process "{{ netbanner.netbanner_exe }}"'
     - shell: powershell
 
-#The 'listen_in' requisite results in the cmd.run state executing every time,
-#rather than only when there are changes. It works, but not ideal.
-#'onchanges' doesn't support execution when *any* state changes, only all of them.
-#When that's supported, 'onchanges_in' will replace the 'listen_in' requisite
+# The 'listen_in' requisite results in the cmd.run state executing every time,
+# rather than only when there are changes. It works, but not ideal.
+# 'onchanges' doesn't support execution when *any* state changes, only all of 
+# them. When that's supported, 'onchanges_in' will replace the 'listen_in' 
+# requisite.
 
 NetBanner.admx:
   file.managed:
