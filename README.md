@@ -22,22 +22,23 @@ The sls will also start|restart the 'Netbanner' process.
 ### netbanner.custom
 
 This sls file will apply a Netbanner configuration to the system. Netbanner
-will be installed if it is not already, via the 'include' statement. The 
+will be installed if it is not already, via an `include` statement. The 
 Netbanner configuration is read from map.jinja, which supports customization 
 via pillar. Any configuration that results in a change will also restart the
 'Netbanner' process to read the change and display the configured banner.
 
 ## Configuration
-The Netbanner configuration is customizable via pillar. The 'lookup' dictionary
+The Netbanner configuration is customizable via pillar. The `lookup` dictionary
 contains three settings:
-  - version
-  - admx_source
-  - adml_source
+  - `version`
+  - `admx_source`
+  - `adml_source`
 
-`version` must match the netbanner version available from winrepo. Known
+`version` must match a netbanner version available from winrepo. Known
 versions of Netbanner include:
   - 1.3.93
   - 2.1.161
+
 `admx_source` and `adml_source` must be a location where the netbanner.admx 
 and netbanner.adml files are available to the salt file system. These files 
 are distributed with this formula, so it is expected that the default path 
@@ -62,7 +63,11 @@ require three settings:
 All of these settings correspond to registry entries read by the Netbanner
 process.
 
-`CustomBackgroundColor` is a number (in string format) from 1-9.
+`CustomBackgroundColor` is a number (in string format) from 1-9. 
+`CustomDisplayText` is the string to display in the banner. `CustomForeColor` 
+is a number (in string format) from 1-3.
+
+`CustomBackgroundColor` key:
   - Green       = '1'
   - Blue        = '2'
   - Red         = '3'
@@ -72,8 +77,8 @@ process.
   - SaddleBrown = '7'
   - Purple      = '8'
   - Orange      = '9'
-`CustomDisplayText` is the string to display in the banner.
-`CustomForeColor` is a number (in string format) from 1-3.
+  
+`CustomForeColor` key:
   - Black       = '1'
   - White       = '2'
   - Red         = '3'
