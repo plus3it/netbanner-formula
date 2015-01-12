@@ -8,7 +8,8 @@
 # Microsoft does not distribute the Netbanner package. It is rather difficult
 # to come by. Also, the Netbanner license prevents distribution, so we cannot 
 # provide it via Github or a CDN. The only known source is below, and it 
-# requires a government-provided ID (CAC) to gain access to the site.
+# requires a government-provided Common Access Card (CAC) to gain access to the 
+# site.
 #  - https://software.forge.mil/sf/go/rel3968
 
 #Dependencies:
