@@ -28,8 +28,24 @@ via pillar. Any configuration that results in a change will also restart the
 'Netbanner' process to read the change and display the configured banner.
 
 ## Configuration
-The Netbanner configuration is customizable via pillar. The `lookup` dictionary
-contains three settings:
+The Netbanner configuration is customizable via pillar. A complete pillar 
+configuration would look something like this:
+
+    netbanner:
+      lookup:
+        version: '2.1.161' 
+        admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
+        adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
+
+      network_label: 'purplenetwork'
+
+      custom_network_labels:
+        purplenetwork:
+          CustomBackgroundColor: '8'
+          CustomDisplayText: 'This is a purple network banner'
+          CustomForeColor: '2'
+
+The `lookup` dictionary contains three settings:
   - `version`
   - `admx_source`
   - `adml_source`
@@ -82,22 +98,6 @@ is a number (in string format) from 1-3.
   - Black       = '1'
   - White       = '2'
   - Red         = '3'
-
-A complete pillar configuration would look something like this:
-
-    netbanner:
-      lookup:
-        version: '2.1.161' 
-        admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
-        adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
-
-      network_label: 'purplenetwork'
-
-      custom_network_labels:
-        purplenetwork:
-          CustomBackgroundColor: '8'
-          CustomDisplayText: 'This is a purple network banner'
-          CustomForeColor: '2'
 
 ##TODO
   - [ ] Write a .NET formula that can be included sanely, while avoiding 
