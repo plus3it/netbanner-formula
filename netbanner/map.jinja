@@ -1,4 +1,4 @@
-#Define lookup dictionary with default settings
+#Initialize 'netbanner' lookup dictionary with default settings
 {% set netbanner = { 
     'version'        : '2.1.161',
     'admx_source'    : 'salt://netbanner/netbannerfiles/netbanner.admx',
@@ -39,36 +39,35 @@
 ### Red         = 3
 ### White       = 2
 
-#Define lookup dictionary of banner settings for the known network strings
-{% set network_string_lookup = { 
+#Define lookup dictionary of banner settings for the known network labels
+{% set network_label_lookup = { 
     'Unclass' : { 'CustomBackgroundColor' : '1',
                   'CustomDisplayText'     : 'UNCLASSIFIED',
                   'CustomForeColor'       : '2',
-                  'CustomSettings'        : '1',
                 },
     'NIPR'    : { 'CustomBackgroundColor' : '1',
                   'CustomDisplayText'     : 'UNCLASSIFIED//FOUO',
                   'CustomForeColor'       : '2',
-                  'CustomSettings'        : '1',
                 },
     'SIPR'    : { 'CustomBackgroundColor' : '3',
                   'CustomDisplayText'     : 'SECRET AND AUTHORIZED TO PROCESS NATO SECRET',
                   'CustomForeColor'       : '2',
-                  'CustomSettings'        : '1',
                 },
     'JWICS'   : { 'CustomBackgroundColor' : '4',
                   'CustomDisplayText'     : 'TOPSECRET//SI/TK/NOFORN                  **G//HCS//NATO SECRET FOR APPROVED USERS IN SELECTED STORAGE SPACE**',
                   'CustomForeColor'       : '2',
-                  'CustomSettings'        : '1',
                 },
 } %}
 
-#Get the network string from pillar, or a grain
-{% set network_string = salt['pillar.get']('netbanner:network_string', salt['grains.get']('netbanner:network_string')) %}
-
 #Import user-defined network banner settings from pillar, if available.
-#If an unknown string is specified, the 'default' settings remain in place.
-{% do netbanner.update(salt['pillar.get']('netbanner:custom_network_banner', network_string_lookup.get(network_string, {}))) %}
+{% do network_label_lookup.update(salt['pillar.get']('netbanner:custom_network_labels', {})) %}
+
+#Get the network label from pillar, or a grain
+{% set network_label = salt['pillar.get']('netbanner:network_label', salt['grains.get']('netbanner:network_label', '')) %}
+
+#Update 'netbanner' with specified settings from the network label
+#If an unknown label is specified, the default settings from the 'netbanner' initialization remain in place.
+{% do netbanner.update(network_label_lookup.get(network_label, {})) %}
 
 #Get the SYSTEMROOT value from the registry
 {% set systemroot = salt['reg.read_key']('HKEY_LOCAL_MACHINE', 'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 'SystemRoot') %}

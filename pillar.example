@@ -5,13 +5,7 @@ netbanner:
     admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
     adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
-  network_string: 'default'
-
-  custom_network_banner:
-    CustomBackgroundColor: '8'
-    CustomDisplayText: 'No network banner configured'
-    CustomForeColor: '2'
-    CustomSettings: '1'
+  network_label: ''
 
 #Background Color Key
 ### Black       = 6
@@ -28,3 +22,13 @@ netbanner:
 ### Black       = 1
 ### Red         = 3
 ### White       = 2
+
+  custom_network_labels:
+    purplenetwork:
+      CustomBackgroundColor: '8'
+      CustomDisplayText: 'This is a purple network banner'
+      CustomForeColor: '2'
+    bluenetwork:
+      CustomBackgroundColor: '2'
+      CustomDisplayText: 'This is a blue network banner'
+      CustomForeColor: '2'
