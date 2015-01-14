@@ -17,7 +17,7 @@ CustomSettings:
     - reflection: True
     - require:
       - pkg: netbanner
-    - listen_in:
+    - watch_in:
       - cmd: netbanner
 
 CustomBackgroundColor:
@@ -28,7 +28,7 @@ CustomBackgroundColor:
     - reflection: True
     - require:
       - pkg: netbanner
-    - listen_in:
+    - watch_in:
       - cmd: netbanner
 
 CustomForeColor:
@@ -39,7 +39,7 @@ CustomForeColor:
     - reflection: True
     - require:
       - pkg: netbanner
-    - listen_in:
+    - watch_in:
       - cmd: netbanner
 
 CustomDisplayText:
@@ -50,8 +50,8 @@ CustomDisplayText:
     - reflection: True
     - require:
       - pkg: netbanner
-    - listen_in:
+    - watch_in:
       - cmd: netbanner
 
 #'onchanges' doesn't support execution when *any* state changes, only all of them.
-#When that's supported, 'onchanges_in' will replace the 'listen_in' requisites.
+#When that's supported, 'onchanges_in' will replace the 'watch_in' requisites.

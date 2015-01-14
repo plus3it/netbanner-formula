@@ -31,36 +31,36 @@
 %}
 
 #Check if minimum required .NET version is available
-{% if dotnet_version[:1] not in netbanner.dotnet_versions %}
 #Fail due to missing .NET prerequisite
 prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}:
   test.configurable_test_state:
     - name: '.NET {{ netbanner.dotnet_versions | join(', ') | string }} prerequisite'
     - changes: False
+{% if dotnet_version[:1] not in netbanner.dotnet_versions %}
     - result: False
-    - comment: 'Netbanner {{ netbanner.version | string }} requires a .NET 
+    - comment: 'Detected .NET version: {{ dotnet_version | string }}.
+                Netbanner {{ netbanner.version | string }} requires a .NET 
                 version in this list: 
-                {{ netbanner.dotnet_versions | join(', ') | string }}. 
-                Detected .NET version: {{ dotnet_version | string }}'
-
+                {{ netbanner.dotnet_versions | join(', ') | string }}.'
 {% else %}
-#Install and Apply Netbanner Settings
+    - result: True
+    - comment: '.NET version {{ dotnet_version }} meets minimum requirement 
+                for Netbanner {{ netbanner.version }}'
+{% endif %}
+
+#Install Netbanner Settings
 netbanner:
   pkg.installed:
     - name: 'Netbanner'
     - version: {{ netbanner.version }}
-    - listen_in:
-      - cmd: netbanner
+    - require:
+      - test: prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}
   cmd.run:
     - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | Stop-Process; 
              Start-Process "{{ netbanner.netbanner_exe }}"'
     - shell: powershell
-
-# The 'listen_in' requisite results in the cmd.run state executing every time,
-# rather than only when there are changes. It works, but not ideal.
-# 'onchanges' doesn't support execution when *any* state changes, only all of 
-# them. When that's supported, 'onchanges_in' will replace the 'listen_in' 
-# requisite.
+    - require:
+      - pkg: netbanner
 
 NetBanner.admx:
   file.managed:
@@ -75,5 +75,3 @@ NetBanner.adml:
     - source: {{ netbanner.adml_source }}
     - require:
       - pkg: netbanner
-
-{% endif %}
