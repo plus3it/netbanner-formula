@@ -31,7 +31,7 @@
 %}
 
 #Check if minimum required .NET version is available
-#Fail due to missing .NET prerequisite
+#Fail if missing .NET prerequisite
 prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}:
   test.configurable_test_state:
     - name: '.NET {{ netbanner.dotnet_versions | join(', ') | string }} prerequisite'
