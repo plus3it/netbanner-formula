@@ -32,7 +32,7 @@
 
 #Check if minimum required .NET version is available
 #Fail if missing .NET prerequisite
-prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}:
+netbanner_prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}:
   test.configurable_test_state:
     - name: '.NET {{ netbanner.dotnet_versions | join(', ') | string }} prerequisite'
     - changes: False
@@ -54,7 +54,7 @@ netbanner:
     - name: 'Netbanner'
     - version: {{ netbanner.version }}
     - require:
-      - test: prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}
+      - test: netbanner_prereq_dotnet_{{ netbanner.dotnet_versions | join('_') | string }}
   cmd.run:
     - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | Stop-Process; 
              Start-Process "{{ netbanner.netbanner_exe }}"'
