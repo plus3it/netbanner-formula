@@ -60,7 +60,7 @@ netbanner:
   cmd.run:
     - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | 
              Stop-Process -Force;
-             Start-Process -FilePath "{{ netbanner.netbanner_exe }}" -PassThru'
+             Start-Process -FilePath "{{ netbanner.netbanner_exe }}" -NoNewWindow -PassThru'
     - shell: powershell
     - require:
       - pkg: netbanner
