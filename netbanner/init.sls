@@ -57,13 +57,6 @@ netbanner:
     - version: {{ netbanner.version }}
     - require:
       - cmd: netbanner_prereq_dotnet_{{ netbanner.dotnet_compatibility | join('_') | string }}
-  cmd.run:
-    - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | 
-             Stop-Process -Force;
-             & {start "{{ netbanner.netbanner_exe }}"}'
-    - shell: powershell
-    - require:
-      - pkg: netbanner
 
 NetBanner.admx:
   file.managed:
