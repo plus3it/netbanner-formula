@@ -58,8 +58,10 @@ netbanner:
     - require:
       - cmd: netbanner_prereq_dotnet_{{ netbanner.dotnet_compatibility | join('_') | string }}
   cmd.run:
-    - name: '(Get-Process | where {$_.ProcessName -match "NetBanner"}) | Stop-Process -Force; 
-             Start-Process "{{ netbanner.netbanner_exe }}"'
+    - name: 'if ( -not (Get-Process | where {$_.ProcessName -match "NetBanner"} 
+                        | Stop-Process -Force) ) {
+                Start-Process -FilePath "C:\Program Files (x86)\Microsoft\NetBanner\NetBanner.exe"
+            }'
     - shell: powershell
     - require:
       - pkg: netbanner
