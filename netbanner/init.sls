@@ -58,9 +58,9 @@ netbanner:
     - require:
       - cmd: netbanner_prereq_dotnet_{{ netbanner.dotnet_compatibility | join('_') | string }}
   cmd.run:
-    - name: 'if ( -not (Get-Process | where {$_.ProcessName -match "NetBanner"} 
-                        | Stop-Process -Force) ) {
-                & "{{ netbanner.netbanner_exe }}"
+    - name: 'Get-Process | where {$_.ProcessName -match "NetBanner"} | 
+             Stop-Process -Force;
+             Start-Process -FilePath "{{ netbanner.netbanner_exe }}" -PassThru
             }'
     - shell: powershell
     - require:
