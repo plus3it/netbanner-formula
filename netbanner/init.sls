@@ -60,7 +60,7 @@ netbanner:
   cmd.run:
     - name: 'if ( -not (Get-Process | where {$_.ProcessName -match "NetBanner"} 
                         | Stop-Process -Force) ) {
-                Start-Process -FilePath "C:\Program Files (x86)\Microsoft\NetBanner\NetBanner.exe"
+                & "{{ netbanner.netbanner_exe }}"
             }'
     - shell: powershell
     - require:
