@@ -55,6 +55,7 @@ netbanner:
   pkg.installed:
     - name: 'Netbanner'
     - version: {{ netbanner.version }}
+    - allow_updates: True
     - require:
       - cmd: netbanner_prereq_dotnet_{{ netbanner.dotnet_compatibility | join('_') | string }}
 
