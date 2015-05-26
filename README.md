@@ -9,16 +9,16 @@ to come by. Also, the Netbanner license prevents distribution, so we cannot
 provide it via Github or a CDN. The only known source is below, and it 
 requires a government-provided Common Access Card (CAC) to gain access to the 
 site.
-  - https://software.forge.mil/sf/go/rel3968
+- https://software.forge.mil/sf/go/rel3968
 
 ## Dependencies
-  - Microsoft .NET 4 for Netbanner 2.x.
-  - Microsoft .NET 2 for Netbanner 1.x.
-  - Salt 2014.7.0 or greater (required for the 'test' state).
-  - Properly configured salt winrepo package manager, in a master or 
-    masterless configuration.
-  - Package definition for Netbanner must be available in the winrepo 
-    database. The installer can be obtained from the site(s) listed above.
+- Microsoft .NET 4 for Netbanner 2.x.
+- Microsoft .NET 2 for Netbanner 1.x.
+- Salt 2014.7.0 or greater (required for the 'test' state).
+- Properly configured salt winrepo package manager, in a master or 
+masterless configuration.
+- Package definition for Netbanner must be available in the winrepo 
+database. The installer can be obtained from the site(s) listed above.
 
 ## Available States
 
@@ -32,8 +32,9 @@ The sls will also start|restart the 'Netbanner' process.
 This sls file will apply a Netbanner configuration to the system. Netbanner
 will be installed if it is not already, via an `include` statement. The 
 Netbanner configuration is read from map.jinja, which supports customization 
-via pillar. Any configuration that results in a change will also restart the
-'Netbanner' process to read the change and display the configured banner.
+via pillar. Configuration changes typically require logging out and back in
+to become effective (though sometimes force closing and restarting the 
+Netbanner.exe process will also work).
 
 ## Configuration
 The Netbanner configuration is customizable via pillar. A complete pillar 
@@ -53,36 +54,39 @@ configuration would look something like this:
           CustomDisplayText: 'This is a purple network banner'
           CustomForeColor: '2'
 
+### `lookup` dictionary:
 The `lookup` dictionary contains three settings:
-  - `version`
-  - `admx_source`
-  - `adml_source`
+- `version`
+- `admx_source`
+- `adml_source`
 
 `version` must match a netbanner version available from winrepo. Known
 versions of Netbanner include:
-  - 1.3.93
-  - 2.1.161
+- 1.3.93
+- 2.1.161
 
 `admx_source` and `adml_source` must be a location where the netbanner.admx 
 and netbanner.adml files are available to the salt file system. These files 
 are distributed with this formula, so it is expected that the default path 
 will work for most use cases.
 
+### `network_label`:
 The next configuration setting is `network_label`. The network_label
 corresponds to a group of Netbanner settings that many systems may have in
 common. There are four default network_labels specified in map.jinja:
-  - Unclass
-  - NIPR
-  - SIPR
-  - JWICS
+- Unclass
+- NIPR
+- SIPR
+- JWICS
 
+### `custom_network_labels`:
 Additional network labels may be created with the `custom_network_labels`
 dictionary in the netbanner pillar. Custom labels will be merged with the 
 default labels above. Custom labels are defined in a YAML dictionary and 
 require three settings:
-  - `CustomBackgroundColor`
-  - `CustomDisplayText`
-  - `CustomForeColor`
+- `CustomBackgroundColor`
+- `CustomDisplayText`
+- `CustomForeColor`
 
 All of these settings correspond to registry entries read by the Netbanner
 process.
@@ -92,25 +96,17 @@ process.
 is a number (in string format) from 1-3.
 
 `CustomBackgroundColor` key:
-  - Green       = '1'
-  - Blue        = '2'
-  - Red         = '3'
-  - Yellow      = '4'
-  - White       = '5'
-  - Black       = '6'
-  - SaddleBrown = '7'
-  - Purple      = '8'
-  - Orange      = '9'
+- Green       = '1'
+- Blue        = '2'
+- Red         = '3'
+- Yellow      = '4'
+- White       = '5'
+- Black       = '6'
+- SaddleBrown = '7'
+- Purple      = '8'
+- Orange      = '9'
 
 `CustomForeColor` key:
-  - Black       = '1'
-  - White       = '2'
-  - Red         = '3'
-
-##TODO
-  - [ ] Write a .NET formula that can be included sanely, while avoiding 
-        unnecessary downloads and installs, and accounting for the odd .NET 
-        deltas across different versions of the Microsoft OS. For example, .NET
-        4.5.x will never show up in "installed software" on Windows 2012 R2, 
-        but it does on earlier versions. This largely breaks the salt winrepo 
-        functionality.
+- Black       = '1'
+- White       = '2'
+- Red         = '3'
