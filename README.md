@@ -1,17 +1,21 @@
 # netbanner-formula
+
 This salt formula will install and configure Microsoft Netbanner. Local Group 
 Policy Object (LGPO) files will be updated so that Netbanner can be managed 
 from the Local Group Policy Editor (i.e. gpedit.msc).
 
-##IMPORTANT:
+## IMPORTANT:
+
 Microsoft does not distribute the Netbanner package. It is rather difficult
 to come by. Also, the Netbanner license prevents distribution, so we cannot 
 provide it via Github or a CDN. The only known source is below, and it 
 requires a government-provided Common Access Card (CAC) to gain access to the 
 site.
+
 - https://software.forge.mil/sf/go/rel3968
 
 ## Dependencies
+
 - Microsoft .NET 4 for Netbanner 2.x.
 - Microsoft .NET 2 for Netbanner 1.x.
 - Salt 2014.7.0 or greater (required for the 'test' state).
@@ -23,6 +27,7 @@ database. The installer can be obtained from the site(s) listed above.
 ## Available States
 
 ### netbanner
+
 This state will install Microsoft Netbanner and update the Local Group Policy 
 Editor configuration so that the Netbanner settings can be managed via LGPO. 
 The sls will also start|restart the 'Netbanner' process.
@@ -37,24 +42,29 @@ to become effective (though sometimes force closing and restarting the
 Netbanner.exe process will also work).
 
 ## Configuration
-The Netbanner configuration is customizable via pillar. A complete pillar 
+
+While the default settings allow the formula to work without any configuration,
+the Netbanner formula is customizable via pillar. A complete pillar 
 configuration would look something like this:
 
-    netbanner:
-      lookup:
-        version: '2.1.161' 
-        admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
-        adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
+```
+netbanner:
+  lookup:
+	version: '2.1.161' 
+	admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
+	adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
-      network_label: 'purplenetwork'
+  network_label: 'purplenetwork'
 
-      custom_network_labels:
-        purplenetwork:
-          CustomBackgroundColor: '8'
-          CustomDisplayText: 'This is a purple network banner'
-          CustomForeColor: '2'
+  custom_network_labels:
+	purplenetwork:
+	  CustomBackgroundColor: '8'
+	  CustomDisplayText: 'This is a purple network banner'
+	  CustomForeColor: '2'
+```
 
 ### `lookup` dictionary:
+
 The `lookup` dictionary contains three settings:
 - `version`
 - `admx_source`
@@ -62,6 +72,7 @@ The `lookup` dictionary contains three settings:
 
 `version` must match a netbanner version available from winrepo. Known
 versions of Netbanner include:
+
 - 1.3.93
 - 2.1.161
 
@@ -71,19 +82,23 @@ are distributed with this formula, so it is expected that the default path
 will work for most use cases.
 
 ### `network_label`:
-The next configuration setting is `network_label`. The network_label
+
+The next configuration setting is `network_label`. The `network_label`
 corresponds to a group of Netbanner settings that many systems may have in
-common. There are four default network_labels specified in map.jinja:
+common. There are four built-in `network_labels` specified in `map.jinja`:
+
 - Unclass
 - NIPR
 - SIPR
 - JWICS
 
 ### `custom_network_labels`:
+
 Additional network labels may be created with the `custom_network_labels`
 dictionary in the netbanner pillar. Custom labels will be merged with the 
 default labels above. Custom labels are defined in a YAML dictionary and 
 require three settings:
+
 - `CustomBackgroundColor`
 - `CustomDisplayText`
 - `CustomForeColor`
@@ -96,6 +111,7 @@ process.
 is a number (in string format) from 1-3.
 
 `CustomBackgroundColor` key:
+
 - Green       = '1'
 - Blue        = '2'
 - Red         = '3'
@@ -107,6 +123,7 @@ is a number (in string format) from 1-3.
 - Orange      = '9'
 
 `CustomForeColor` key:
+
 - Black       = '1'
 - White       = '2'
 - Red         = '3'
