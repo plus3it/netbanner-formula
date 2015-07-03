@@ -85,12 +85,8 @@ will work for most use cases.
 
 The next configuration setting is `network_label`. The `network_label`
 corresponds to a group of Netbanner settings that many systems may have in
-common. There are four built-in `network_labels` specified in `map.jinja`:
-
-- Unclass
-- NIPR
-- SIPR
-- JWICS
+common. The `network_label` label and associated settings must be defined in 
+`custom_network_labels`.
 
 ### `custom_network_labels`:
 
