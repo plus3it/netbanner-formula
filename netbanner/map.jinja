@@ -39,45 +39,34 @@
 ### Red         = 3
 ### White       = 2
 
-# Define lookup dictionary of banner settings for the known network labels
-{% set network_label_lookup = { 
-    'Unclass' : { 'CustomBackgroundColor' : '1',
-                  'CustomDisplayText'     : 'UNCLASSIFIED',
-                  'CustomForeColor'       : '2',
-                },
-    'NIPR'    : { 'CustomBackgroundColor' : '1',
-                  'CustomDisplayText'     : 'UNCLASSIFIED//FOUO',
-                  'CustomForeColor'       : '2',
-                },
-    'SIPR'    : { 'CustomBackgroundColor' : '3',
-                  'CustomDisplayText'     : 'SECRET AND AUTHORIZED TO PROCESS NATO SECRET',
-                  'CustomForeColor'       : '2',
-                },
-    'JWICS'   : { 'CustomBackgroundColor' : '4',
-                  'CustomDisplayText'     : 'TOPSECRET//SI/TK/NOFORN                  **G//HCS//NATO SECRET FOR APPROVED USERS IN SELECTED STORAGE SPACE**',
-                  'CustomForeColor'       : '1',
-                },
-} %}
-
-# Import user-defined network banner settings from pillar, if available.
-{% do network_label_lookup.update(salt['pillar.get']('netbanner:custom_network_labels', {})) %}
+# Initialize dictionary of banner settings from pillar, or default to an empty 
+# dict.
+{% set network_label_lookup = salt['pillar.get'](
+    'netbanner:custom_network_labels', {}) %}
 
 # Get the network label from pillar, or a grain
-{% set network_label = salt['pillar.get']('netbanner:network_label', salt['grains.get']('netbanner:network_label', '')) %}
+{% set network_label = salt['pillar.get'](
+    'netbanner:network_label', 
+    salt['grains.get']('netbanner:network_label', '')) %}
 
 # Update 'netbanner' with specified settings from the network label
-#If an unknown label is specified, the default settings from the 'netbanner' initialization remain in place.
+# If an unknown label is specified, the default settings from the 'netbanner' 
+# initialization remain in place.
 {% do netbanner.update(network_label_lookup.get(network_label, {})) %}
 
 # Get the SYSTEMROOT value from the registry
-{% set systemroot = salt['reg.read_key']('HKEY_LOCAL_MACHINE', 'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 'SystemRoot') %}
+{% set systemroot = salt['reg.read_key'](
+    'HKEY_LOCAL_MACHINE', 
+    'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 
+    'SystemRoot') %}
 
 # Get the directory corresponding to the %programfilesx86% env variable
-{% set programfilesx86 = salt['cmd.run']('${env:ProgramFiles(x86)}', shell='powershell') %}
+{% set programfilesx86 = salt['cmd.run'](
+    '${env:ProgramFiles(x86)}', shell='powershell') %}
 
 # Update netbanner settings with required filename locations
 {% do netbanner.update({
-    'admx_name'     : systemroot + '\\PolicyDefinitions\\NetBanner.admx',
-    'adml_name'     : systemroot + '\\PolicyDefinitions\\en-US\\NetBanner.adml',
-    'netbanner_exe' : programfilesx86 + '\\Microsoft\\NetBanner\\NetBanner.exe',
+    'admx_name'    : systemroot + '\\PolicyDefinitions\\NetBanner.admx',
+    'adml_name'    : systemroot + '\\PolicyDefinitions\\en-US\\NetBanner.adml',
+    'netbanner_exe': programfilesx86 + '\\Microsoft\\NetBanner\\NetBanner.exe',
 }) %}
