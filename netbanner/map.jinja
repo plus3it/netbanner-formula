@@ -55,10 +55,10 @@
 {% do netbanner.update(network_label_lookup.get(network_label, {})) %}
 
 # Get the SYSTEMROOT value from the registry
-{% set systemroot = salt['reg.read_key'](
+{% set systemroot = salt['reg.read_value'](
     'HKEY_LOCAL_MACHINE', 
     'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 
-    'SystemRoot') %}
+    'SystemRoot').vdata %}
 
 # Get the directory corresponding to the %programfilesx86% env variable
 {% set programfilesx86 = salt['cmd.run'](
