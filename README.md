@@ -30,7 +30,6 @@ database. The installer can be obtained from the site(s) listed above.
 
 This state will install Microsoft Netbanner and update the Local Group Policy 
 Editor configuration so that the Netbanner settings can be managed via LGPO. 
-The sls will also start|restart the 'Netbanner' process.
 
 ### netbanner.custom
 

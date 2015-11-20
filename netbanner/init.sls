@@ -2,7 +2,7 @@
 
 # This sls file will install Microsoft Netbanner and update the Local Group 
 # Policy Editor configuration so that the Netbanner settings can be managed
-# via LGPO. The sls will also start|restart the 'Netbanner' process.
+# via LGPO.
 
 #IMPORTANT:
 # Microsoft does not distribute the Netbanner package. It is rather difficult
@@ -53,7 +53,7 @@ netbanner_prereq_dotnet_{{ netbanner.dotnet_compatibility | join('_') }}:
 #Install Netbanner Settings
 netbanner:
   pkg.installed:
-    - name: 'Netbanner'
+    - name: 'netbanner'
     - version: {{ netbanner.version }}
     - allow_updates: True
     - require:
