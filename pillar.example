@@ -16,12 +16,7 @@ netbanner:
     adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
 # 'network_label' is associated with a group of netbanner configuration
-# settings to apply to the system. Default network_labels and settings 
-# are defined with the map.jina file, and include the following labels:
-#   - Unclass
-#   - NIPR
-#   - SIPR
-#   - JWICS
+# settings to apply to the system.
 
   network_label: ''
 
