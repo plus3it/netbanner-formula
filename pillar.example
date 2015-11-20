@@ -4,14 +4,14 @@
 # versions of Netbanner include:
 #   - 1.3.93
 #   - 2.1.161
-# 'admx_source' and 'adml_source' must be a location where the netbanner.admx 
-# and netbanner.adml files are available to the salt file system. These files 
-# are distributed with this formula, so it is expected that the default path 
+# 'admx_source' and 'adml_source' must be a location where the netbanner.admx
+# and netbanner.adml files are available to the salt file system. These files
+# are distributed with this formula, so it is expected that the default path
 # will work for most use cases.
 
 netbanner:
   lookup:
-    version: '2.1.161' 
+    version: '2.1.161'
     admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
     adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
@@ -20,8 +20,8 @@ netbanner:
 
   network_label: ''
 
-#Use the dictionary 'custom_network_labels' to create customized groups of 
-# Netbanner settings for your systems. The color key below identifies all the 
+#Use the dictionary 'custom_network_labels' to create customized groups of
+# Netbanner settings for your systems. The color key below identifies all the
 # supported background and foreground colors. The label (i.e. purplenetwork)
 # can be specified as the 'network_label' value, above.
 
