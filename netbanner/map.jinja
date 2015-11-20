@@ -1,13 +1,17 @@
 # Initialize 'netbanner' lookup dictionary with default settings
-{% set netbanner = {
-    'version'        : '2.1.161',
-    'admx_source'    : 'salt://netbanner/netbannerfiles/netbanner.admx',
-    'adml_source'    : 'salt://netbanner/netbannerfiles/netbanner.adml',
-    'CustomBackgroundColor' : '5',
-    'CustomDisplayText'     : 'No network label configured',
-    'CustomForeColor'       : '1',
-    'CustomSettings'        : '1',
-} %}
+{% set netbanner = salt['pillar.get'](
+    'netbanner:lookup',
+    default={
+        'version' : '2.1.161',
+        'admx_source' : 'salt://netbanner/netbannerfiles/netbanner.admx',
+        'adml_source' : 'salt://netbanner/netbannerfiles/netbanner.adml',
+        'CustomBackgroundColor' : '5',
+        'CustomDisplayText' : 'No network label configured',
+        'CustomForeColor' : '1',
+        'CustomSettings' : '1',
+    },
+    merge=True)
+%}
 
 # Define lookup dictionary of netbanner version dependencies
 {% set dependencies = {
@@ -16,9 +20,6 @@
     '2.1.161' : { 'dotnet_compatibility' : ['4'],
                 },
 } %}
-
-# Override default settings with user-defined pillar data, if available
-{% do netbanner.update(salt['pillar.get']('netbanner:lookup')) %}
 
 # Add version dependencies to the netbanner settings dictionary
 {% do netbanner.update(dependencies[netbanner['version']]) %}
