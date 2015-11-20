@@ -50,9 +50,9 @@ configuration would look something like this:
 ```
 netbanner:
   lookup:
-	version: '2.1.161' 
-	admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
-	adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
+    version: '2.1.161' 
+    admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
+    adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
   network_label: 'purplenetwork'
 
