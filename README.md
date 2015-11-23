@@ -53,21 +53,16 @@ netbanner:
     admx_source: 'salt://netbanner/netbannerfiles/netbanner.admx'
     adml_source: 'salt://netbanner/netbannerfiles/netbanner.adml'
 
-  network_label: 'purplenetwork'
+    network_label: 'purplenetwork'
 
-  custom_network_labels:
-	purplenetwork:
-	  CustomBackgroundColor: '8'
-	  CustomDisplayText: 'This is a purple network banner'
-	  CustomForeColor: '2'
+    custom_network_labels:
+    purplenetwork:
+      CustomBackgroundColor: '8'
+      CustomDisplayText: 'This is a purple network banner'
+      CustomForeColor: '2'
 ```
 
-### `lookup` dictionary:
-
-The `lookup` dictionary contains three settings:
-- `version`
-- `admx_source`
-- `adml_source`
+### `netbanner:lookup:version`
 
 `version` must match a netbanner version available from winrepo. Known
 versions of Netbanner include:
@@ -75,19 +70,20 @@ versions of Netbanner include:
 - 1.3.93
 - 2.1.161
 
+### `netbanner:lookup:admx_source` and `netbanner:lookup:adml_source`
 `admx_source` and `adml_source` must be a location where the netbanner.admx
 and netbanner.adml files are available to the salt file system. These files
 are distributed with this formula, so it is expected that the default path
 will work for most use cases.
 
-### `network_label`:
+### `netbanner:lookup:network_label`:
 
 The next configuration setting is `network_label`. The `network_label`
 corresponds to a group of Netbanner settings that many systems may have in
 common. The `network_label` label and associated settings must be defined in
 `custom_network_labels`.
 
-### `custom_network_labels`:
+### `netbanner:lookup:custom_network_labels`:
 
 Additional network labels may be created with the `custom_network_labels`
 dictionary in the netbanner pillar. Custom labels will be merged with the
