@@ -18,7 +18,7 @@ site.
 
 - Microsoft .NET 4 for Netbanner 2.x.
 - Microsoft .NET 2 for Netbanner 1.x.
-- Salt 2014.7.0 or greater (required for the 'test' state).
+- Salt 2015.8.0 or greater (required for templating winrepo packages).
 - Properly configured salt winrepo package manager, in a master or
 masterless configuration.
 - Package definition for Netbanner must be available in the winrepo
