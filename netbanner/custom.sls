@@ -1,8 +1,8 @@
 {% from "netbanner/map.jinja" import netbanner with context %}
 
 # This sls file will apply a Netbanner configuration to the system. Netbanner
-# will be installed if it is not already, via the 'include' statement. The 
-# Netbanner configuration is read from map.jinja, which supports customization 
+# will be installed if it is not already, via the 'include' statement. The
+# Netbanner configuration is read from map.jinja, which supports customization
 # via pillar. Any configuration that results in a change will also restart the
 # 'Netbanner' process to read the change and display the configured banner.
 
