@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/plus3it/netbanner-formula.svg)](https://travis-ci.org/plus3it/netbanner-formula)
+
 # netbanner-formula
 
 This salt formula will install and configure Microsoft Netbanner. Local Group
