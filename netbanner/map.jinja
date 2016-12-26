@@ -73,7 +73,7 @@ CustomSettings: '1'
     'SystemRoot').vdata %}
 
 # Get the directory corresponding to the %programfilesx86% env variable
-{% set programfilesx86 = salt['cmd.run'](
+{% set programfilesx86 = salt['cmd.shell'](
     '${env:ProgramFiles(x86)}', shell='powershell') %}
 
 # Update netbanner settings with required filename locations
