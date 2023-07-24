@@ -1,4 +1,4 @@
-# Windows image file caches
+# Windows image file cached
 Thumbs.db
 ehthumbs.db
 
@@ -30,7 +30,7 @@ tardigrade-ci/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
