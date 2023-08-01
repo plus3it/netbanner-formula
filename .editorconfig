@@ -32,5 +32,11 @@ indent_size = 1
 indent_style = tab
 indent_size = 1
 
+[*.adml]
+insert_final_newline = unset
+
+[*.admx]
+insert_final_newline = unset
+
 [LICENSE]
 indent_size = none
